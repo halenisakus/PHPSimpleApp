@@ -16,6 +16,13 @@ if (!$user) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    updateUser($_POST, $userId);
+    header("Location: index.php");
+}
+
+
+
 
 ?>
 
@@ -23,7 +30,7 @@ if (!$user) {
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h3>Update User <b><?php echo $user['name'] ?></b></h3>
+            <h3>Update User: <b><?php echo $user['name'] ?></b></h3>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="">
