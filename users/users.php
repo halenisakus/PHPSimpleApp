@@ -39,3 +39,20 @@ function updateUser($data, $id)
 function deleteUser($id)
 {
 }
+
+function uploadImage($file, $user)
+
+{
+    if (!is_dir(__DIR__ . "/images")) {
+        mkdir(__DIR__ . "/images");
+    }
+
+    $fileName = $file['name'];
+    $dotPosition = strpos($fileName, '.');
+    $extension = substr($fileName, $dotPosition + 1);
+
+
+    move_uploaded_file($file['tmp_name'], __DIR__ . "/images/${user['id']}.$extension");
+    $user['extension'] = $extension;
+    updateUser($user, $user['id']);
+}
