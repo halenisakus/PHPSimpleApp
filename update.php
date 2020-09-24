@@ -1,6 +1,6 @@
 <?php
 include 'partials/header.php';
-require __DIR__ . '/users.php';
+require __DIR__ . '/users/users.php';
 
 
 if (!isset($_GET['id'])) {
@@ -17,7 +17,24 @@ if (!$user) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    updateUser($_POST, $userId);
+    $user = updateUser($_POST, $userId);
+
+    if (isset($_FILES['picture'])) {
+        if (!is_dir(__DIR__ . "/users/images")) {
+            mkdir(__DIR__ . "/users/images");
+        }
+
+        $fileName = $_FILES['picture']['name'];
+        $dotPosition = strpos($fileName, '.');
+        $extension = substr($fileName, $dotPosition + 1);
+
+
+        move_uploaded_file($_FILES['picture']['tmp_name'], __DIR__ . "/users/images/$userId.$extension");
+        $user['extension'] = $extension;
+        updateUser($user, $userId);
+    }
+
+
     header("Location: index.php");
 }
 
