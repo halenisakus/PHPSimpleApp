@@ -47,7 +47,10 @@ include 'partials/header.php';
                     <td>
                         <a href="view.php?id=<?php echo $user['id'] ?>'" class="btn btn-sm btn-outline-info">View</a>
                         <a href="update.php?id=<?php echo $user['id'] ?>'" class=" btn btn-sm btn-outline-secondary ">Update</a>
-                        <a href=" delete.php?id=<?php echo $user['id'] ?>'" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <form method="POST" action="delete.php">
+                            <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach;; ?>

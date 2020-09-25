@@ -13,13 +13,31 @@ $user = [
     'website' => '',
 ];
 
+$errors = [
+    'name' => "",
+    'username' => "",
+    'email' => "",
+    'phone' => "",
+    'website' => "",
+];
+
+
+$IsValid = true;
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user = createUser($_POST);
-    uploadImage($_FILES['picture'], $user);
+    $user = array_merge($user, $_POST);
 
-    header("Location: index.php");
+    $isValid = validateUser($user, $errors);
+
+
+    if ($IsValid) {
+
+        $user = createUser($_POST);
+        uploadImage($_FILES['picture'], $user);
+
+        header("Location: index.php");
+    }
 }
 
 
