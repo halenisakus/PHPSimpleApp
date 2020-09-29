@@ -8,42 +8,37 @@ if (!isset($_GET['id'])) {
 }
 
 $userId = $_GET['id'];
-
-
 $user = getUserById($userId);
-
 
 if (!$user) {
     include 'partials/not_found.php';
     exit;
 }
+
 ?>
 
 <div class="container">
-
     <div class="card">
-
-        <div class="card-header">
-
-
+        <div class="card-header p-3 mb-2 bg-dark text-white">
             <h3>
                 View User: <b><?php echo $user['name'] ?></b>
             </h3>
         </div>
-        <div class="card-body">
-            <a class="btn btn-secondary" href="update.php?id=<?php echo $user['id'] ?>">Update</a>
+        <div class="card-body text-white-50 bg-dark ">
+            <a class="btn btn-info btn-me" href="update.php?id=<?php echo $user['id'] ?>">Update</a>
             <form style="display: inline-block;" method="POST" action="delete.php">
                 <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger btn-me">Delete</button>
             </form>
         </div>
-        <table class="table">
+        <table class="table text-white-50 bg-dark">
             <tbody>
-
                 <tr>
                     <th><?php if (isset($user['extension'])) : ?>
-                            <img style="width: 60px" src="<?php echo "users/images/${user['id']}.${user['extension']}" ?>" alt="">
-                        <?php endif; ?>
+                        <img style="width: 60px" src="<?php echo "users/images/${user['id']}.${user['extension']}" ?>"
+                            alt="">
+                    <td></td>
+                    <?php endif; ?>
                     </th>
                 </tr>
                 <tr>
@@ -66,19 +61,15 @@ if (!$user) {
                     <th>Website</th>
                     <td>
                         <!-- değiştirildi -->
-
+                        <?php if (isset($user['website'])) : ?>
                         <a target="blank" href="http://<?php echo $user['website'] ?>">
                             <?php echo $user['website'] ?>
                         </a>
-
+                        <?php endif; ?>
                     </td>
                 </tr>
             </tbody>
         </table>
-
     </div>
-
 </div>
-
-
 <?php include 'partials/footer.php' ?>

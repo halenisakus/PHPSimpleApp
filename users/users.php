@@ -3,8 +3,6 @@
 function getUsers()
 {
     $json_arr = json_decode(file_get_contents(__DIR__ . '/users.json'), true);
-    //$data_arr = call_user_func_array('array_merge', $json_arr['data']);
-
     $users = $json_arr;
     if (is_array($users) || is_object($users)) {
         foreach ($users as $arr) {
@@ -30,34 +28,20 @@ function getUserById($id)
     return null;
 }
 
-
-// created user func. çalışıyor
-// FIX BUG: image
 function createUser($data)
 {
     $users = getUsers();
-
-    /* 
-     * foreach kaldırıldı
-     * data direkt users içine gönderildi 
-     */
     $data['id'] = rand(1000000, 2000000);
     $users[] = $data;
-
-    // Json dosyasını oluştur
     putJson($users);
-
-    // dönülmez akşamın ufku
     return $data;
 }
 
-// updated func. çalışıyor
 
 
 function updateUser($data, $id)
 {
     $users = getUsers();
-
     foreach ($users as $key => $user) {
         if ($user['id'] == $id) {
             $users[$key] = array_merge($user, $data);
@@ -67,8 +51,6 @@ function updateUser($data, $id)
 }
 
 
-// delete func. çalışıyor
-
 function deleteUser($id)
 {
     $users = getUsers();
@@ -77,7 +59,6 @@ function deleteUser($id)
         if ($user['id'] == $id) {
             array_splice($users, $key, 1);
         }
-
         putJson($users);
     }
 }
@@ -89,7 +70,6 @@ function uploadImage($file, $user)
         if (!is_dir(__DIR__ . "/images")) {
             mkdir(__DIR__ . "/images");
         }
-
         $fileName = $file['name'];
         $dotPosition = strpos($fileName, '.');
         $extension = substr($fileName, $dotPosition + 1);
@@ -102,12 +82,8 @@ function uploadImage($file, $user)
 }
 
 
-// >>>> fonksiyon güncellendi <<<<
-//4. putJson fonksiyonunda obje data-Data 
-//olarak tanımlandı
 function putJson($users)
 {
-
     file_put_contents(__DIR__ . '/users.json', json_encode([
         "data" => [
             "Data" => $users
@@ -119,7 +95,6 @@ function validateUser($user, &$errors)
 {
 
     $isValid = true;
-    // Start of validation
 
     if (!$user['name']) {
         $isValid = false;
@@ -139,7 +114,6 @@ function validateUser($user, &$errors)
         $isValid = false;
         $errors['phone'] = 'This must be a valid phone number';
     }
-    // End Of validation
 
     return $isValid;
 }

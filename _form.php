@@ -1,16 +1,15 @@
 <div class="container">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header p-3 mb-2 bg-dark text-white">
             <h3>
                 <?php if ($user['id']) : ?>
-                    Update user <b><?php echo $user['name'] ?></b>
-
+                    Update User : <b><?php echo $user['name'] ?></b>
                 <?php else : ?>
                     Create new user
                 <?php endif ?>
             </h3>
         </div>
-        <div class="card-body">
+        <div class="card-body text-white-50 bg-dark">
             <form method="POST" enctype="multipart/form-data" action="">
                 <div class="form-group">
                     <label>Name</label>
