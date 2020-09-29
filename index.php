@@ -2,8 +2,11 @@
 require 'users/users.php';
 
 $users = getUsers();
+//$data_arr = call_user_func_array('array_merge', $json_arr['data']);
 
 include 'partials/header.php';
+
+
 ?>
 
 
@@ -25,32 +28,36 @@ include 'partials/header.php';
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $user) : ?>
+            <?php if (is_array($users) || is_object($users)) foreach ($users as $i) :
+
+            ?>
                 <tr>
                     <td>
-                        <?php if (isset($user['extension'])) : ?>
-                            <img style="width: 60px" src="<?php echo "users/images/${user['id']}.${user['extension']}" ?>" alt="">
+
+                        <?php if (isset($i['extension'])) : ?>
+                            <img style="width: 60px" src="<?php echo "users/images/${i['id']}.${i['extension']}" ?>" alt="">
                         <?php endif; ?>
                     </td>
-                    <td><?php echo $user['name'] ?></td>
-                    <td><?php echo $user['username'] ?></td>
-                    <td><?php echo $user['email'] ?></td>
-                    <td><?php echo $user['phone'] ?></td>
+                    <td><?php echo $i['name'] ?></td>
+                    <td><?php echo $i['username'] ?></td>
+                    <td><?php echo $i['email'] ?></td>
+                    <td><?php echo $i['phone'] ?></td>
                     <td>
-                        <a target="_blank" href="http://<?php echo $user['website'] ?>">
-                            <?php echo $user['website'] ?>
+                        <a target="_blank" href="http://<?php echo $i['website'] ?>">
+                            <?php echo $i['website'] ?>
                         </a>
                     </td>
                     <td>
-                        <a href="view.php?id=<?php echo $user['id'] ?>" class="btn btn-sm btn-outline-info">View</a>
-                        <a href="update.php?id=<?php echo $user['id'] ?>" class="btn btn-sm btn-outline-secondary">Update</a>
+                        <a href="view.php?id=<?php echo $i['id'] ?>" class="btn btn-sm btn-outline-info">View</a>
+                        <a href="update.php?id=<?php echo $i['id'] ?>" class="btn btn-sm btn-outline-secondary">Update</a>
                         <form method="POST" action="delete.php">
-                            <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
+                            <input type="hidden" name="id" value="<?php echo $i['id'] ?>">
                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
                     </td>
                 </tr>
             <?php endforeach;; ?>
+
         </tbody>
     </table>
 </div>

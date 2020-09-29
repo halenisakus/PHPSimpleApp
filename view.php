@@ -9,7 +9,10 @@ if (!isset($_GET['id'])) {
 
 $userId = $_GET['id'];
 
+
 $user = getUserById($userId);
+
+
 if (!$user) {
     include 'partials/not_found.php';
     exit;
@@ -17,8 +20,12 @@ if (!$user) {
 ?>
 
 <div class="container">
+
     <div class="card">
+
         <div class="card-header">
+
+
             <h3>
                 View User: <b><?php echo $user['name'] ?></b>
             </h3>
@@ -32,6 +39,7 @@ if (!$user) {
         </div>
         <table class="table">
             <tbody>
+
                 <tr>
                     <th><?php if (isset($user['extension'])) : ?>
                             <img style="width: 60px" src="<?php echo "users/images/${user['id']}.${user['extension']}" ?>" alt="">
@@ -57,13 +65,20 @@ if (!$user) {
                 <tr>
                     <th>Website</th>
                     <td>
+                        <!-- değiştirildi -->
+
                         <a target="blank" href="http://<?php echo $user['website'] ?>">
                             <?php echo $user['website'] ?>
                         </a>
+
                     </td>
                 </tr>
             </tbody>
         </table>
+
     </div>
+
 </div>
+
+
 <?php include 'partials/footer.php' ?>

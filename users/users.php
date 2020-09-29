@@ -2,11 +2,25 @@
 
 function getUsers()
 {
-    return json_decode(file_get_contents(__DIR__ . '/users.json'), true);
+    $json_arr = json_decode(file_get_contents(__DIR__ . '/users.json'), true);
+    //$data_arr = call_user_func_array('array_merge', $json_arr['data']);
+
+    $users = $json_arr;
+    if (is_array($users) || is_object($users)) {
+        foreach ($users as $arr) {
+            if (is_array($arr) || is_object($arr)) {
+                foreach ($arr as $v) {
+                    return $v;
+                }
+            }
+        }
+    }
 }
+
 
 function getUserById($id)
 {
+
     $users = getUsers();
     foreach ($users as $user) {
         if ($user['id'] == $id) {
@@ -16,46 +30,58 @@ function getUserById($id)
     return null;
 }
 
+
+// created user func. çalışıyor
+// FIX BUG: image
 function createUser($data)
 {
     $users = getUsers();
 
+    /* 
+     * foreach kaldırıldı
+     * data direkt users içine gönderildi 
+     */
     $data['id'] = rand(1000000, 2000000);
-
     $users[] = $data;
 
+    // Json dosyasını oluştur
     putJson($users);
 
+    // dönülmez akşamın ufku
     return $data;
 }
 
+// updated func. çalışıyor
+
+
 function updateUser($data, $id)
 {
-    $updateUser = [];
     $users = getUsers();
-    foreach ($users as $i => $user) {
+
+    foreach ($users as $key => $user) {
         if ($user['id'] == $id) {
-            $users[$i] = $updateUser = array_merge($user, $data);
+            $users[$key] = array_merge($user, $data);
         }
     }
-
     putJson($users);
-
-    return $updateUser;
 }
+
+
+// delete func. çalışıyor
 
 function deleteUser($id)
 {
     $users = getUsers();
 
-    foreach ($users as $i => $user) {
+    foreach ($users as $key => $user) {
         if ($user['id'] == $id) {
-            array_splice($users, $i, 1);
+            array_splice($users, $key, 1);
         }
-    }
 
-    putJson($users);
+        putJson($users);
+    }
 }
+
 
 function uploadImage($file, $user)
 {
@@ -75,15 +101,26 @@ function uploadImage($file, $user)
     }
 }
 
+
+// >>>> fonksiyon güncellendi <<<<
+//4. putJson fonksiyonunda obje data-Data 
+//olarak tanımlandı
 function putJson($users)
 {
-    file_put_contents(__DIR__ . '/users.json', json_encode($users, JSON_PRETTY_PRINT));
+
+    file_put_contents(__DIR__ . '/users.json', json_encode([
+        "data" => [
+            "Data" => $users
+        ]
+    ], JSON_PRETTY_PRINT), true);
 }
 
 function validateUser($user, &$errors)
 {
+
     $isValid = true;
     // Start of validation
+
     if (!$user['name']) {
         $isValid = false;
         $errors['name'] = 'Name is mandatory';

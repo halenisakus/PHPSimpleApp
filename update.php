@@ -11,7 +11,6 @@ if (!isset($_GET['id'])) {
 $userId = $_GET['id'];
 
 $user = getUserById($userId);
-
 if (!$user) {
     include "partials/not_found.php";
     exit;
@@ -38,4 +37,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 ?>
+
 <?php include '_form.php' ?>

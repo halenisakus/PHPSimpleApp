@@ -4,6 +4,7 @@
             <h3>
                 <?php if ($user['id']) : ?>
                     Update user <b><?php echo $user['name'] ?></b>
+
                 <?php else : ?>
                     Create new user
                 <?php endif ?>
